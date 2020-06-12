@@ -160,11 +160,14 @@ dmypy.json
 */*/*.html
 */*/*.log
 */*/*.so
+*/*/*.zip
+
 */*.gz
 */*.txt
 */*.html
 */*.log
 */*.so
+*/*.zip
 
 */*/*.sge.e*
 */*/*.sge.o*
