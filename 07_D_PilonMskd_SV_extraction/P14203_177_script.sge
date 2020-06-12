@@ -1,0 +1,10 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load Java/v1.8.0_191
+module load snpEff/v.4.3t
+
+mkdir P14203_177_Mskd_D
+snpEff eff Smarinoi.v112 /proj/data9/Loss_of_function_mutations/06_SV_Pindel_Pilon-Mskd/P14203_177_D/P14203_177_D_PilonMskd.vcf -c /home/andre/snpEff.config -csvStats P14203_177_Mskd_D/P14203_177_Mskd_D_summary.csv > P14203_177_Mskd_D/P14203_177_Mskd_D.ann.vcf

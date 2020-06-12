@@ -1,0 +1,10 @@
+#$ -cwd
+#$ -q Annotation-2
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load Java/v1.8.0_191
+module load snpEff/v.4.3t
+
+mkdir P8352_147_Mskd_D
+snpEff eff Smarinoi.v112 /proj/data9/Loss_of_function_mutations/06_SV_Pindel_Pilon-Mskd_Lov/P8352_147_D/P8352_147_D_PilonMskd.vcf -c /home/andre/snpEff.config -csvStats P8352_147_Mskd_D/P8352_147_Mskd_D_summary.csv -interval /proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/AllUniqueModelsBLASTP/QuickAndDirty_Annotation/Sm_QuickAndDirty_Annotation.gff > P8352_147_Mskd_D/P8352_147_Mskd_D.ann.vcf

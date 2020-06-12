@@ -1,0 +1,20 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 20
+
+
+module load Anaconda3/v2019.10
+module load Bowtie2/v2.3.4.3
+module load samtools/v1.9
+
+mkdir -p map_P8511_101
+
+bowtie2 -x /proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2 --no-unal -p 20 -1 /proj/data21/Skeletonema_marinoi/Genome/RO5/A.Blomberg_17_16-P8511/01-QC/P8511_101/fastq_trimmed/P8511_101_S1_L001_R1_001.fastq -2 /proj/data21/Skeletonema_marinoi/Genome/RO5/A.Blomberg_17_16-P8511/01-QC/P8511_101/fastq_trimmed/P8511_101_S1_L001_R2_001.fastq -S map_P8511_101/P8511_101.sam
+
+samtools view -@ 20 -b -o map_P8511_101/P8511_101.bam map_P8511_101/P8511_101.sam
+
+samtools sort -@ 20 -o map_P8511_101/P8511_101_sorted.bam map_P8511_101/P8511_101.bam
+
+samtools index map_P8511_101/P8511_101_sorted.bam map_P8511_101/P8511_101_sorted.bai
+

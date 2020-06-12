@@ -1,0 +1,15 @@
+#$ -cwd
+#$ -q Annotation-4
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load Bedtools2/v2.27.1
+module load pindel/v0.2.5b8
+
+mkdir -p P8352_123_D
+
+pindel2vcf -p /proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel_Lov/P8352_123/P8352_123_D -r Smar_v1.1.2.fasta -R S_marinoi_v1.1.2 -d 03-25-20 -v P8352_123_D/P8352_123_D_S_marinoi_v1.1.2.vcf
+
+sed 's/^0/Sm_0/g' P8352_123_D/P8352_123_D_S_marinoi_v1.1.2.vcf > P8352_123_D/P8352_123_D_ChrNamesCor.vcf
+
+bedtools intersect -v -b /proj/data9/Loss_of_function_mutations/05_PilonAssembly_v_v112/snpEff_P8511_101/P8511_101_D_ChrNamesCor.vcf -a P8352_123_D/P8352_123_D_ChrNamesCor.vcf -sorted > P8352_123_D/P8352_123_D_PilonMskd.vcf

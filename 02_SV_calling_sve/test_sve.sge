@@ -1,0 +1,12 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 8
+
+module load sve/v0.1.0
+
+callers="breakdancer breakseq cnvnator hydra delly lumpy cnmops"
+
+for i in $callers; do
+	sve call P14203_101.bam -r Smar_v1.1.2.fasta -g others -t 8 -a $i -o out_$i
+done

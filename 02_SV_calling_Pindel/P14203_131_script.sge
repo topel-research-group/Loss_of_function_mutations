@@ -1,0 +1,17 @@
+#$ -cwd
+#$ -q Annotation-2
+#$ -S /bin/bash
+#$ -pe mpi 8
+
+module load pindel/v0.2.5b8
+module load ensembl-vep/vX.X
+
+mkdir -p P14203_131
+
+sam2pindel /proj/data9/Loss_of_function_mutations/01_Mapping/P14203_131/P14203_131.sam P14203_131/P14203_131_pindel.txt 150 VG1_P14203_131 0 Illumina-PairEnd
+
+pindel -f Smar_v1.1.2.fasta -p P14203_131/P14203_131_pindel.txt -o P14203_131/P14203_131 -c ALL -T 8
+
+pindel2vcf -P P14203_131/P14203_131 -r Smar_v1.1.2.fasta -R S_marinoi_v1.1.2 -d 03-02-20 -v P14203_131/P14203_131_S_marinoi_v1.1.2.vcf
+
+bgzip -c P14203_131/P14203_131_S_marinoi_v1.1.2.vcf > P14203_131/P14203_131_S_marinoi_v1.1.2.vcf.gz

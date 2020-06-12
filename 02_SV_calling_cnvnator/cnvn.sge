@@ -1,0 +1,8 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load cnvnator/v0.4.1
+
+cnvnator -root out.root -tree ../01_Mapping/P14203_101/P14203_101.bam

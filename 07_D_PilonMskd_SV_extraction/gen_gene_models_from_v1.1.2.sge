@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+#André Soares - 12/02/2020
+
+v112_GFF="/proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel/Skeletonema_marinoi_Ref_v1.1_Primary.OnemRNAPerGene_noFASTA.gff"
+v112_FASTA="Smar_v1.1.2_correctedHeaderForGFF.fasta"
+
+module load Bedtools2/v2.27.1
+
+bedtools getfasta -fi $v112_FASTA -bed $v112_GFF -fo Smar_v1.1.2_gene_models.fasta

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load bcftools/v1.9
+
+echo -e "Sample_Name\tGroup\tChromosome\tIndel\tLength" > P14203_pindel_indel_stats.txt
+
+for i in /proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel/P*/*.vcf.gz; do
+	SPL_dir=${i%.vcf.gz}
+	SPL_name=${SPL_dir##*/}
+	SPL_full=${SPL_name%.*}
+	SPL=$(echo $SPL_full | cut -f-2 -d$'_')
+
+	#create variables GROUP, QUEUE to feed into pindel and sge files
+        spl_no=$(echo $SPL_full | cut -d '_' -f2)
+        if [ "$spl_no" -gt 100 ] && [ "$spl_no" -lt 128 ]; then
+        GROUP="GP2"
+        elif [ "$spl_no" -gt 129 ] && [ "$spl_no" -lt 156 ]; then
+        GROUP="VG1"
+        elif [ "$spl_no" -gt 157 ] && [ "$spl_no" -lt 161 ]; then
+        GROUP="LO"
+        elif [ "$spl_no" -gt 162 ] && [ "$spl_no" -lt 194 ]; then
+        GROUP="Mutant"
+        fi;
+
+	INDEL=$(bcftools view $i | grep 'DEL\|INS' | sed -e 's/.*SVTYPE=\(.*\)GT.*/\1/')
+	LEN=$(bcftools view $i | grep 'DEL\|INS' | sed -e 's/.*SVLEN=\(.*\);.*/\1/')
+	Chr=$(bcftools view $i | grep 'DEL\|INS' | cut -f1 -d$'\t')
+
+	INDEL_no=$(bcftools view $i | grep 'DEL\|INS' | wc -l)
+	SPL_out=$(yes "$SPL" | head -n $INDEL_no)
+	GROUP_out=$(yes "$GROUP" | head -n $INDEL_no)
+
+	echo -e "$SPL_out" > P14203_pindel_indel_stats_spl.txt
+	echo -e "$GROUP_out" > P14203_pindel_indel_stats_group.txt
+	echo -e "$Chr" > P14203_pindel_indel_stats_chr.txt
+	echo -e "$INDEL" > P14203_pindel_indel_stats_indel.txt
+	cut -f1 -d$'\t' P14203_pindel_indel_stats_indel.txt > P14203_pindel_indel_stats_indel_fix.txt
+	echo -e "$LEN" > P14203_pindel_indel_stats_len.txt
+
+	paste -d'\t' P14203_pindel_indel_stats_spl.txt \
+		P14203_pindel_indel_stats_group.txt \
+		P14203_pindel_indel_stats_chr.txt \
+		P14203_pindel_indel_stats_indel_fix.txt \
+		P14203_pindel_indel_stats_len.txt >> P14203_pindel_indel_stats.txt
+	rm P14203_pindel_indel_stats_*
+done

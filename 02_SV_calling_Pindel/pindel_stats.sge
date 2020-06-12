@@ -1,0 +1,13 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load bcftools/v1.9
+
+#Not managing with getting VEP to work so this is a way to get stats on Pindel outputs for now
+#André 11-02-2020
+
+bcftools merge */*.vcf.gz -Oz -o P14203.vcf.gz --force-samples
+tabix -p vcf P14203.vcf.gz
+bcftools stats P14203.vcf.gz > P14203.vcf.gz.stats

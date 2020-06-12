@@ -1,0 +1,11 @@
+#$ -cwd
+#$ -q sandbox
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load Java/v1.8.0_191
+module load snpEff/v.4.3t
+
+mkdir snpEff_P8511_101
+sed 's/^0/Sm_0/g' pindel_P8511_101/P8511_101_D_S_marinoi_v1.1.2.vcf > snpEff_P8511_101/P8511_101_D_ChrNamesCor.vcf
+snpEff eff Smarinoi.v112 snpEff_P8511_101/P8511_101_D_ChrNamesCor.vcf -c /home/andre/snpEff.config -csvStats snpEff_P8511_101/P8511_101_D_summary.csv > snpEff_P8511_101/P8511_101.ann.vcf

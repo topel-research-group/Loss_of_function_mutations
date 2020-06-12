@@ -1,0 +1,25 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load bcftools/v1.9
+module load Anaconda3/v2019.10
+
+#Not managing with getting VEP to work so this is a way to get stats on Pindel outputs for now
+#André 11-02-2020
+
+for i in /proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel/P*/*.vcf.gz; do
+
+        #dirname for sample name
+        dirname="$(basename "${i}")"
+
+	#index vcf files
+	tabix -p vcf $i
+	
+	#generate stats with bcftools
+	bcftools stats $i > $dirname".stats"
+
+	#have MultiQC generate stats for each sample
+	multiqc -m bcftools *.stats --filename $dirname
+done

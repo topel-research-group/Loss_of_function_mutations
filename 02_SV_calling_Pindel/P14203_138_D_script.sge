@@ -1,0 +1,10 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load pindel/v0.2.5b8
+
+pindel2vcf -p P14203_138/P14203_138_D -r Smar_v1.1.2.fasta -R S_marinoi_v1.1.2 -d 03-16-20 -v P14203_138/P14203_138_D_S_marinoi_v1.1.2.vcf
+
+bgzip -c P14203_138/P14203_138_D_S_marinoi_v1.1.2.vcf > P14203_138/P14203_138_D_S_marinoi_v1.1.2.vcf.gz

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+module load bcftools/v1.9
+
+touch P14203_pindel_stats.txt
+echo -e "Sample_Name\tGroup\tDeletions\tInsertions\tInvertions\tReplacements\tDuplications" > P14203_pindel_stats.txt
+
+for i in /proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel/P*/*.vcf.gz; do
+	SPL_dir=${i%.vcf.gz}
+	SPL_name=${SPL_dir##*/}
+	SPL_full=${SPL_name%.*}
+	SPL=$(echo $SPL_full | cut -f-2 -d$'_')
+	spl_no=$(echo $SPL | cut -f2 -d$'_')	
+
+        #create variable GROUP to feed into pindel and sge files
+        if [ "$spl_no" -gt 100 ] && [ "$spl_no" -lt 128 ]; then
+        GROUP="GP2"
+        elif [ "$spl_no" -gt 129 ] && [ "$spl_no" -lt 156 ]; then
+        GROUP="VG1"
+        elif [ "$spl_no" -gt 157 ] && [ "$spl_no" -lt 161 ]; then
+        GROUP="LO"
+        elif [ "$spl_no" -gt 162 ] && [ "$spl_no" -lt 194 ]; then
+        GROUP="Mutant"
+        fi;
+
+	
+	DEL_no=$(bcftools view $i | grep -v "^#" | grep "DEL" | wc -l)
+	INS_no=$(bcftools view $i | grep -v "^#" | grep "INS" | wc -l)
+	INV_no=$(bcftools view $i | grep -v "^#" | grep "INV" | wc -l)
+	RPL_no=$(bcftools view $i | grep -v "^#" | grep "RPL" | wc -l)
+	DUP_no=$(bcftools view $i | grep -v "^#" | grep "DUP" | wc -l)
+
+	echo -e "$SPL\t$GROUP\t$DEL_no\t$INS_no\t$INV_no\t$RPL_no\t$DUP_no" >> P14203_pindel_stats.txt
+done

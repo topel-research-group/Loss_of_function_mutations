@@ -1,0 +1,20 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 8
+
+
+module load Anaconda3/v2019.10
+module load Bowtie2/v2.3.4.3
+module load samtools/v1.9
+
+mkdir -p P8352_150
+
+bowtie2 -x /proj/data9/Loss_of_function_mutations/00_Data/Smar_v1.1.2 --no-unal -p 8 -1 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_150/P8352_150_R1.Pair.fastq.gz -2 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_150/P8352_150_R2.Pair.fastq.gz -S P8352_150/P8352_150.sam
+
+samtools view -@ 8 -b -o P8352_150/P8352_150.bam P8352_150/P8352_150.sam
+
+samtools sort -@ 8 -o P8352_150/P8352_150_sorted.bam P8352_150/P8352_150.bam
+
+samtools index P8352_150/P8352_150_sorted.bam P8352_150/P8352_150_sorted.bai
+

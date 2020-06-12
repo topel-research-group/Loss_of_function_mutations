@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#André Soares - 28/02/2020
+
+v112_GFF="/proj/data9/Loss_of_function_mutations/02_SV_calling_Pindel/Skeletonema_marinoi_Ref_v1.1_Primary.OnemRNAPerGene_noFASTA.gff"
+v112_FASTA="Smar_v1.1.2_correctedHeaderForGFF.fasta"
+
+#building a database for Smarinoi v112
+#copied /usr/local/packages/snpEff/snpEff.config to /home/andre to modify it since snpEff has a -c option
+#echo "#Skeletonema marinoi reference v1.1.2" >> /home/andre/snpEff.config
+#echo "Smarinoi.v112.genome : Smarinoi" >> /home/andre/snpEff.config
+#echo "Smarinoi.v112.codonTable : Standard" >> /home/andre/snpEff.config
+#echo "Smarinoi.v112.Sm_Mitochondrion_S_marinoi_RO5_v1.1.codonTable : Mold_Mitochondrial" >> /home/andre/snpEff.config
+#echo "Smarinoi.v112.Sm_Chloroplast_S_marinoi_RO5_v1.1.codonTable : Bacterial_and_Plant_Plastid"  >> /home/andre/snpEff.config
+#echo "Smarinoi.v112.reference : Smarinoi.v112.fa" >> /home/andre/snpEff.config
+#mkdir /home/andre/data/
+#mkdir /home/andre/data/Smarinoi.v112
+#mkdir /home/andre/data/genomes
+#cp $V112_FASTA Smarinoi.v112.fa
+#mv Smar_v1.1.2_correctedHeaderForGFF.fasta Smarinoi.v112.fa
+#cp Smarinoi.v112.fa /home/andre/data/genomes/
+#cp Smarinoi.v112.fa /home/andre/data/Smarinoi.v112/sequences.fa
+#cp $v112_GFF /home/andre/data/Smarinoi.v112/genes.gff
+#!!Make sure GFF, FASTA and sample .vcf correspond!!
+#snpEff build -gff3 -v Smarinoi.v112 -c /home/andre/snpEff.config
+
+for i in /proj/data9/Loss_of_function_mutations/06_SV_Pindel_Pilon-Mskd/P*/*.vcf; do
+
+        #dirname for sample name
+        dirname="$(basename "${i}")"
+	
+	#create variables GROUP, QUEUE to feed into pindel and sge files
+        spl_no=$(echo $dirname | cut -d '_' -f2)
+        if [ "$spl_no" -gt 100 ] && [ "$spl_no" -lt 128 ]; then
+        QUEUE="Annotation-4"
+        elif [ "$spl_no" -gt 129 ] && [ "$spl_no" -lt 156 ]; then
+        QUEUE="Annotation-2"
+        elif [ "$spl_no" -gt 157 ] && [ "$spl_no" -lt 161 ]; then
+        QUEUE="Annotation-3"
+        elif [ "$spl_no" -gt 162 ] && [ "$spl_no" -lt 194 ]; then
+        QUEUE="high_mem"
+        fi;
+	
+        SPL_dir=${i%.vcf.gz}
+        SPL_name=${SPL_dir##*/}
+        SPL_full=${SPL_name%.*}
+        SPL=$(echo $SPL_full | cut -f-2 -d$'_')
+	
+	#create sge file, feed it the basics
+        echo -e "#$ -cwd\n#$ -q ""$QUEUE""\n#$ -S /bin/bash\n#$ -pe mpi 1\n" > $SPL"_script.sge"
+        echo -e "module load Java/v1.8.0_191\nmodule load snpEff/v.4.3t\n" >> $SPL"_script.sge"
+	
+	echo -e "mkdir "$SPL"_Mskd_D" >> $SPL"_script.sge"
+	echo -e "snpEff eff Smarinoi.v112 "$i" -c /home/andre/snpEff.config -csvStats "$SPL"_Mskd_D/"$SPL"_Mskd_D_summary.csv > "$SPL"_Mskd_D/"$SPL"_Mskd_D.ann.vcf" >> $SPL"_script.sge"
+	
+	qsub $SPL"_script.sge"
+done
