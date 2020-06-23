@@ -141,6 +141,8 @@ dmypy.json
 */*/*.vcf
 */*/*.csv
 */*/*.bed
+*/*/*.idx
+*/*/*metrics
 
 */*.fasta
 */*.fa
@@ -154,6 +156,8 @@ dmypy.json
 */*.vcf
 */*.csv
 */*.bed
+*/*.idx
+*/*metrics
 
 */*/*.gz
 */*/*.txt
