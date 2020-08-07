@@ -1,0 +1,48 @@
+#$ -cwd
+#$ -q Annotation-1
+#$ -S /bin/bash
+#$ -pe mpi 20
+#$ -l h_vmem=16G
+module load bwa/v0.7.17
+module load samtools/v1.9
+module load gridss/v2.8.3
+module load Bedtools2/v2.27.1
+module load snpEff/v.4.3t
+module load Java/v1.8.0_191
+module load Anaconda3/v2019.10
+module load Bowtie2/v2.3.4.3
+module load bcftools/v1.10.2
+module load GATK/v4.1.8.0
+module load picard/v2.18.26
+
+mkdir -p P8511_101_gatk
+
+java_picard="/usr/local/packages/picard-tools-2.18.26/picard.jar"
+
+#java -jar $java_picard AddOrReplaceReadGroups \
+#	I=map_P8511_101/P8511_101_sorted.bam \
+#	O=P8511_101_gatk/P8511_101_sorted_rdgrp.bam \
+#	SORT_ORDER=coordinate RGID=foo RGLB=bar \
+#	RGPL=illumina RGSM=P8511_101 \
+#	RGPU=bc1 CREATE_INDEX=TRUE
+
+#java -Xms4G -Xmx16G -jar $java_picard MarkDuplicates \
+#	I=P8511_101_gatk/P8511_101_sorted_rdgrp.bam \
+#	O=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups.bam \
+#	M=P8311_101_dup_metrics.txt TMP_DIR=P8511_101_gatk
+
+java -Xmx16G -jar $java_picard FixMateInformation \
+	I=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups.bam \
+	O=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam \
+	ADD_MATE_CIGAR=true TMP_DIR=P8511_101_gatk
+
+samtools index P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam
+
+gatk --java-options "-Xmx4G -XX:ParallelGCThreads=20" \
+	HaplotypeCaller \
+	-G StandardAnnotation \
+	-G StandardHCAnnotation \
+	-R /proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2.fasta \
+	-I P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam \
+	-O P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate_svcalls.vcf
+

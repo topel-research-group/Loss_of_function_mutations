@@ -1,5 +1,5 @@
 #$ -cwd
-#$ -q high_mem
+#$ -q Annotation-1
 #$ -S /bin/bash
 #$ -pe mpi 20
 
