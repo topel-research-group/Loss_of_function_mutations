@@ -8,9 +8,12 @@ module load Anaconda3/v2019.10
 module load Bowtie2/v2.3.4.3
 module load samtools/v1.9
 
+#$ -o /proj/data9/Loss_of_function_mutations/01_Mapping_Lov
+#$ -e /proj/data9/Loss_of_function_mutations/01_Mapping_Lov
+
 mkdir -p P8352_111
 
-bowtie2 -x /proj/data9/Loss_of_function_mutations/00_Data/Smar_v1.1.2 --no-unal -p 8 -1 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_111/P8352_111_R1.Pair.fastq.gz -2 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_111/P8352_111_R2.Pair.fastq.gz -S P8352_111/P8352_111.sam
+bowtie2 -x /proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2 --no-unal -p 8 -1 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_111/P8352_111_R1.Pair.fastq.gz -2 /proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/P8352_111/P8352_111_R2.Pair.fastq.gz -S P8352_111/P8352_111.sam
 
 samtools view -@ 8 -b -o P8352_111/P8352_111.bam P8352_111/P8352_111.sam
 

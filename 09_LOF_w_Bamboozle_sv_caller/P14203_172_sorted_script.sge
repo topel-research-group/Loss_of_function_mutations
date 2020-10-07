@@ -1,0 +1,19 @@
+#$ -cwd
+#$ -q high_mem
+#$ -S /bin/bash
+#$ -pe mpi 4
+
+#$ -o /proj/data9/Loss_of_function_mutations/09_LOF_w_Bamboozle_sv_caller/
+#$ -e /proj/data9/Loss_of_function_mutations/09_LOF_w_Bamboozle_sv_caller/
+
+module load bwa/v0.7.17
+module load samtools/v1.9
+module load Bedtools2/v2.27.1
+module load snpEff/v.4.3t
+module load Java/v1.8.0_191
+module load Anaconda3/v2019.10
+module load Bowtie2/v2.3.4.3
+module load bcftools/v1.10.2
+module load GATK/v4.1.8.0
+
+python /home/andre/Bamboozle/bamboozle.py lof --bamfile /proj/data9/Loss_of_function_mutations/01_Mapping/P14203_172/P14203_172_sorted.bam --snpeffdb Smarinoi.v112 -f /proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2.fasta -GFF /proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Skeletonema_marinoi_Ref_v1.1_Primary.OnemRNAPerGene.gff -t 4 -M /proj/data9/Loss_of_function_mutations/05_PilonAssembly_v_v112/P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate_svcalls.vcf

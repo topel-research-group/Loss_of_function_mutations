@@ -1,0 +1,9 @@
+#$ -cwd
+#$ -q Annotation-1
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+for i in P*/*_lof.vcf; do
+	bgzip $i && tabix -p vcf $i".gz"
+	echo "done with "$i
+done

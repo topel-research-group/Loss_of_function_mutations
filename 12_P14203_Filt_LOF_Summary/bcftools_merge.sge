@@ -1,0 +1,11 @@
+#$ -cwd
+#$ -q Annotation-2
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+#$ -o /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+#$ -e /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+
+module load bcftools/v1.10.2
+
+bcftools merge *.vcf.gz -Oz -o P14203_filt_merged.vcf.gz

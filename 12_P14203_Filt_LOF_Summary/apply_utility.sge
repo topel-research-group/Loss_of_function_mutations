@@ -1,0 +1,18 @@
+#$ -cwd
+#$ -q Annotation-2
+#$ -S /bin/bash
+#$ -pe mpi 1
+
+#$ -o /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+#$ -e /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+
+module load Anaconda3/v2019.10
+
+python /home/andre/Bamboozle/scripts/lof_utility.py \
+	-v P14203_filt_merged.vcf.gz \
+	-g /proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Skeletonema_marinoi_Ref_v1.1_Primary.OnemRNAPerGene.gff \
+	-o P14203 
+#	-p LOV_11cm_cold.txt \
+#	-p LOV_21cm_warm.txt \
+#	-p LOV_3cm_cold.txt \
+#	-p LOV_7cm_warm.txt

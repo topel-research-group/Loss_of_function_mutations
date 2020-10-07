@@ -1,8 +1,9 @@
 #$ -cwd
 #$ -q Annotation-1
 #$ -S /bin/bash
-#$ -pe mpi 20
+#$ -pe mpi 40
 #$ -l h_vmem=16G
+
 module load bwa/v0.7.17
 module load samtools/v1.9
 module load gridss/v2.8.3
@@ -31,15 +32,16 @@ java_picard="/usr/local/packages/picard-tools-2.18.26/picard.jar"
 #	O=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups.bam \
 #	M=P8311_101_dup_metrics.txt TMP_DIR=P8511_101_gatk
 
-java -Xmx16G -jar $java_picard FixMateInformation \
-	I=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups.bam \
-	O=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam \
-	ADD_MATE_CIGAR=true TMP_DIR=P8511_101_gatk
+#java -Xmx16G -jar $java_picard FixMateInformation \
+#	I=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups.bam \
+#	O=P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam \
+#	ADD_MATE_CIGAR=true TMP_DIR=P8511_101_gatk
 
-samtools index P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam
+#samtools index P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate.bam
 
-gatk --java-options "-Xmx4G -XX:ParallelGCThreads=20" \
+gatk --java-options "-Xmx4G -XX:ParallelGCThreads=40" \
 	HaplotypeCaller \
+	--native-pair-hmm-threads 40 \
 	-G StandardAnnotation \
 	-G StandardHCAnnotation \
 	-R /proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2.fasta \
