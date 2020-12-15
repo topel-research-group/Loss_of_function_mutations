@@ -8,4 +8,5 @@
 
 module load bcftools/v1.10.2
 
-bcftools merge *.vcf.gz -Oz -o P8352_filt_merged.vcf.gz
+bcftools merge *_het.vcf.gz -Oz -o P8352_filt_het_merged.vcf.gz
+bcftools merge *_hom.vcf.gz -Oz -o P8352_filt_hom_merged.vcf.gz

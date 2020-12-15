@@ -12,16 +12,16 @@ for i in /proj/data9/Loss_of_function_mutations/01_Mapping/P*/*_sorted.bam; do
         spl_no=$(echo $dirname | cut -d '_' -f2)
         if [ "$spl_no" -gt 100 ] && [ "$spl_no" -lt 128 ]; then
 #        GROUP="GP2_"$dirname
-	QUEUE="Annotation-2"
+	QUEUE="Annotation-1"
         elif [ "$spl_no" -gt 129 ] && [ "$spl_no" -lt 156 ]; then
 #        GROUP="VG1_"$dirname
-	QUEUE="Annotation-3"
+	QUEUE="Annotation-2"
         elif [ "$spl_no" -gt 157 ] && [ "$spl_no" -lt 161 ]; then
 #        GROUP="LO_"$dirname
 	QUEUE="Annotation-4"
         elif [ "$spl_no" -gt 162 ] && [ "$spl_no" -lt 194 ]; then
 #        GROUP="Mutant_"$dirname
-	QUEUE="high_mem"
+	QUEUE="Annotation-3"
         fi;
 
 	#create sge file, feed it the basics
@@ -36,7 +36,7 @@ for i in /proj/data9/Loss_of_function_mutations/01_Mapping/P*/*_sorted.bam; do
 #	echo -e "\nmkdir -p "$filename"\n" >> $filename"_script.sge"
 
 	v112_FASTA="/proj/data26/Skeletonema_marinoi_genome_project/12_remove_redundancy/Fake_Primary_Removal/Smar_v1.1.2.fasta"
-	v112_GFF="/proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Skeletonema_marinoi_Ref_v1.1_Primary.OnemRNAPerGene.gff"
+	v112_GFF="/proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Sm_ManualCuration.v1.1.2.gff"
 	PILON_REF="/proj/data9/Loss_of_function_mutations/05_PilonAssembly_v_v112/P8511_101_gatk/P8511_101_sorted_rdgrp_nodups_fixmate_svcalls.vcf"
 
 	echo -e "\npython /home/andre/Bamboozle/bamboozle.py lof --bamfile "$i" --snpeffdb Smarinoi.v112 -f "$v112_FASTA" -GFF "$v112_GFF" -t 4 -M "$PILON_REF >> $filename"_script.sge"
