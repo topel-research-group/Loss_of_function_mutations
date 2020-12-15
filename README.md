@@ -22,43 +22,43 @@ Gothenburg University - 18/12/2020
 
  - `02_SV_calling_breakdancer`:
 
-	- test folder for [breakdancer](https://github.com/genome/breakdancer) - abandoned
+	- test folder for [breakdancer](https://github.com/genome/breakdancer) - **abandoned**
 
  - `02_SV_calling_cnvnator`:
 
-	- test folder for [cnvnator](https://github.com/abyzovlab/CNVnator) - abandoned
+	- test folder for [cnvnator](https://github.com/abyzovlab/CNVnator) - **abandoned**
 
  - `02_SV_calling_delly`:
 
-	- test folder for [delly](https://github.com/dellytools/delly) - abandoned
+	- test folder for [delly](https://github.com/dellytools/delly) - **abandoned**
 
  - `02_SV_calling_GRIDSS`:
 
-	- test folder for [GRIDSS](https://github.com/PapenfussLab/gridss) - abandoned
+	- test folder for [GRIDSS](https://github.com/PapenfussLab/gridss) - **abandoned**
 
  - `02_SV_calling_lumpy`:
 
-	- test folder for [lumpy](https://github.com/arq5x/lumpy-sv) - abandoned
+	- test folder for [lumpy](https://github.com/arq5x/lumpy-sv) - **abandoned**
 
  - `02_SV_calling_Pindel`:
 
-	- test folder for [pindel](http://gmt.genome.wustl.edu/packages/pindel/) - abandoned
+	- test folder for [pindel](http://gmt.genome.wustl.edu/packages/pindel/) - **abandoned**
 
  - `02_SV_calling_Pindel_Lov`:
 
-	- test folder for [pindel](http://gmt.genome.wustl.edu/packages/pindel/) - abandoned
+	- test folder for [pindel](http://gmt.genome.wustl.edu/packages/pindel/) - **abandoned**
 
  - `02_SV_calling_sve`:
 
-	- test folder for [sve](https://github.com/TheJacksonLaboratory/SVE) - abandoned
+	- test folder for [sve](https://github.com/TheJacksonLaboratory/SVE) - **abandoned**
 
  - `03_SV_calling_stats`:
 
-	- processing of  `pindel` outputs - abandoned
+	- processing of  `pindel` outputs - **abandoned**
 
  - `04_SV_extraction`:
 
-	- annotation of `pindel` outputs with [`SnpEff`](https://pcingola.github.io/SnpEff/) - abandoned
+	- annotation of `pindel` outputs with [`SnpEff`](https://pcingola.github.io/SnpEff/) - **abandoned**
 
  - `05_PilonAssembly_v_v112`:
 
@@ -66,23 +66,23 @@ Gothenburg University - 18/12/2020
 
  - `06_SV_Pindel_Pilon-Mskd`:
 
-	- processing of P8511-masked `pindel` outputs from P14203 - abandoned
+	- processing of P8511-masked `pindel` outputs from P14203 - **abandoned**
 
  - `06_SV_Pindel_Pilon-Mskd_Lov`:
 
-	- processing of P8511-masked `pindel` outputs from P8352 - abandoned
+	- processing of P8511-masked `pindel` outputs from P8352 - **abandoned**
 
  - `07_D_PilonMskd_SV_extraction`:
 
-	- `SnpEff` annotation of P8511-masked `pindel` outputs from P14203 - abandoned
+	- `SnpEff` annotation of P8511-masked `pindel` outputs from P14203 - **abandoned**
 
  - `07_D_PilonMskd_SV_extraction_Lov`:
 
-	- `SnpEff` annotation of P8511-masked `pindel` outputs from P8352 - abandoned
+	- `SnpEff` annotation of P8511-masked `pindel` outputs from P8352 - **abandoned**
 
  - `08_D_Mskd_Ann_LOF_Data_Analysis_Lov``:
 
-	-  analysis of `07_D_PilonMskd_SV_extraction_Lov` (P8352) outputs - abandoned
+	-  analysis of `07_D_PilonMskd_SV_extraction_Lov` (P8352) outputs - **abandoned**
 
  - `09_LOF_w_Bamboozle_sv_caller`:
 
