@@ -1,0 +1,38 @@
+#$ -cwd
+#$ -q Annotation-2
+#$ -S /bin/bash
+#$ -pe mpi 4
+
+#$ -o /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+#$ -e /proj/data9/Loss_of_function_mutations/11_Lovisa_Filt_LOF_Summary/
+
+module load bcftools/v1.10.2
+module load snpEff/v.4.3t
+module load Java/v1.8.0_191
+module load Anaconda3/v2019.10
+
+#cp ../10_Lovisa_LOF_Bamboozle/P8352_1*/*_lof.vcf .
+
+#for i in *_lof.vcf; do
+#	bgzip -f $i
+#	tabix -f -p vcf $i".gz"
+#done
+
+#merges all vcfs coming out of sv_caller
+#bcftools merge *_lof.vcf.gz -Oz -o P8352_merged.vcf.gz --threads 4
+
+#takes the merged vcf, filters for Q and zygosity
+#python /home/andre/Bamboozle/scripts/std_q_g_filter.py \
+#	-v P8352_merged.vcf.gz
+
+#produces matrix of LOF mutation counts per gene per sample
+python /home/andre/Bamboozle/scripts/lof_utility.py \
+	-v P8352_merged_filt_hom.vcf.gz \
+	-g /proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Sm_ManualCuration.v1.1.2.gff \
+	-o P8352_merged_filt_hom
+
+#produces matrix of LOF mutation counts per gene per sample
+python /home/andre/Bamboozle/scripts/lof_utility.py \
+	-v P8352_merged_filt_het.vcf.gz \
+	-g /proj/data26/Skeletonema_marinoi_genome_project/03_Annotation/Skeletonema_marinoi_Ref_v1.1_Primary/Unique_models_per_locus_ManualCuration/Sm_ManualCuration.v1.1.2.gff \
+	-o P8352_merged_filt_het
