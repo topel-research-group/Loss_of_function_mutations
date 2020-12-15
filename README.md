@@ -14,11 +14,11 @@ Gothenburg University - 18/12/2020
 
  - `01_Mapping`:
 
-	- mapping outputs for P14203 (SAM and BAM files deleted, sorted BAMs kept)
+	- mapping outputs for P14203 (`00_Data`, SAM and BAM files deleted, sorted BAMs kept)
 
  - `01_Mapping_Lov`:
 
-	- mapping outputs for P8352 (SAM and BAM files deleted, sorted BAMs kept)
+	- mapping outputs for P8352 (`/proj/data17/Skeletonema_marinoi_adaptation_to_warming_project/00_data/Trimmed/`, SAM and BAM files deleted, sorted BAMs kept)
 
  - `02_SV_calling_breakdancer`:
 
